@@ -1,43 +1,53 @@
-# Astro Starter Kit: Minimal
+# tomastornyos.sk
 
-```sh
-pnpm create astro@latest -- --template minimal
-```
+Mobile-first landing page nezávislého kandidáta na poslanca MsZ Banská Bystrica
+(Ing. arch. Tomáš Tornyos, obvod Sásová/Rudlová, tím Molitoris, voľby 24. 10. 2026).
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Stack: **Astro** (statické HTML, interaktivita len ako izolované islands), vizuál
+„atrament a papier". Zdroj pravdy: `../00-ssot/zadanie-web-kandidata-v2-0.md`.
 
-## 🚀 Project Structure
+> **Stav: S0 (skeleton + pipeline).** Web je zámerne v režime „pripravujeme"
+> s `<meta name="robots" content="noindex">`. Žiadny finálny obsah, žiadna
+> analytika/cookies. `noindex` sa odstráni pri launchi v1.0 (S2 → produkcia).
 
-Inside of your Astro project, you'll see the following folders and files:
+## Vývoj
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+Package manager je **pnpm** (`pnpm-lock.yaml` je verzovaný). Node **22+**.
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+| Príkaz | Akcia |
+| :-- | :-- |
+| `pnpm install` | Inštalácia závislostí |
+| `pnpm dev` | Dev server na `localhost:4321` |
+| `pnpm build` | Produkčný build do `./dist/` |
+| `pnpm preview` | Lokálny náhľad buildu |
+| `pnpm check` | `astro check` + validácia sľubníka |
+| `pnpm validate:promises` | Validácia `src/data/promises.json` voči schéme |
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## Sľubník (dátový kontrakt)
 
-Any static assets, like images, can be placed in the `public/` directory.
+`src/data/promises.schema.json` (JSON Schema 2020-12) + `src/data/promises.json`
+(zatiaľ prázdny, validný). „Git ako notár" — každá zmena statusu = commit s
+verejnou históriou. Render je až S5; v S0 existuje len schéma + prázdny JSON +
+validátor (`scripts/validate-promises.mjs`, CI gate). Viď `ADR-0002`.
 
-## 🧞 Commands
+## Fonty
 
-All commands are run from the root of the project, from a terminal:
+IBM Plex (Sans/Serif/Mono) sú **self-hosted** v `public/fonts/` ako woff2 subsety
+(latin + latin-ext, SK diakritika). Žiadny Google Fonts request. Licencia písma:
+SIL Open Font License 1.1 (`public/fonts/LICENSE-fonts.txt`).
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+## Nasadenie — Cloudflare Pages
 
-## 👀 Want to learn more?
+1. Prepoj repozitár s Cloudflare Pages (framework preset **Astro**).
+2. Build command: `pnpm build` · Output directory: `dist` · Production branch: `main`.
+3. Nastav env `NODE_VERSION=22` (repo vyžaduje Node ≥ 22.12; default CF je nižší).
+4. Cloudflare auto-detekuje `pnpm-lock.yaml` → inštaluje cez pnpm.
+5. Každý push do `main` = deploy; PR = preview URL. Fallback doména: `*.pages.dev`
+   (custom doména tomastornyos.sk cez Cloudflare, úloha 12.2).
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Functions/KV (anketa) sa v S0 **nezavádzajú** — prídu v S3.
+
+## Kontrola kvality (gates)
+
+`.github/workflows/ci.yml` a `lighthouserc.json`: build, `pnpm check`, kontrola
+absencie externých fontov, Lighthouse (mobile) s prahmi **Perf ≥ 0.95, A11y ≥ 0.95**.
