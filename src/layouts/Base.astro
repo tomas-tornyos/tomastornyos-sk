@@ -1,0 +1,35 @@
+---
+/**
+ * Base layout — <html>, meta, import stylov, grid wrapper (02-contracts §6).
+ * `noindex` je zámerný, kým je web v režime „pripravujeme" (odstrániť pri launchi v1.0).
+ */
+import "../styles/tokens.css";
+import "../styles/fonts.css";
+import "../styles/base.css";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = "Ing. arch. Tomáš Tornyos — nezávislý kandidát na poslanca MsZ Banská Bystrica, obvod Sásová/Rudlová.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="sk">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+  </head>
+  <body>
+    <div class="wrap page">
+      <slot />
+    </div>
+  </body>
+</html>
