@@ -38,11 +38,13 @@
     font-weight: 600;
   }
 
+  /* Akcent len ako podčiarknutie (plocha), nie ako farba textu — kontrakt §2. */
   .draft {
     font-family: var(--font-mono);
     font-size: 0.6875rem;
     letter-spacing: 0.06em;
-    color: var(--accent);
+    color: var(--ink);
+    border-block-end: 2px solid var(--accent);
     white-space: nowrap;
   }
 
