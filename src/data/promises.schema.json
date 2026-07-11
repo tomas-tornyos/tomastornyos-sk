@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tomastornyos.sk/schemas/promises.schema.json",
+  "title": "Sľubník — verejný odpočet záväzkov",
+  "type": "object",
+  "required": ["version", "updatedAt", "commitments"],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "type": "string", "description": "SemVer schémy dát, napr. 1.0.0" },
+    "updatedAt": { "type": "string", "format": "date", "description": "ISO dátum poslednej úpravy" },
+    "intro": { "type": "string", "description": "Úvodná veta, napr. „Toto ste mi v roku 2026 povedali vy.“" },
+    "commitments": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/commitment" }
+    }
+  },
+  "$defs": {
+    "commitment": {
+      "type": "object",
+      "required": ["id", "title", "status", "category", "source"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9-]+$", "description": "stabilný slug, nemení sa" },
+        "title": { "type": "string", "description": "krátky merateľný záväzok" },
+        "description": { "type": "string", "description": "kontext, čo presne znamená splnenie" },
+        "status": {
+          "type": "string",
+          "enum": ["done", "in-progress", "blocked", "failed", "pending"],
+          "description": "done=✅ · in-progress=🟡 · blocked=🔴 · failed=⚪ · pending=zatiaľ neaktivované"
+        },
+        "statusNote": {
+          "type": "string",
+          "description": "pri blocked: prečo a u koho; pri failed: čo som sa naučil"
+        },
+        "category": {
+          "type": "string",
+          "enum": ["byvanie", "doprava", "parkovanie", "verejny-priestor", "urad", "transparentnost", "ine"]
+        },
+        "source": {
+          "type": "string",
+          "description": "odkiaľ záväzok pochádza, napr. „List pre Sásovú“ alebo „Bystrická minúta“"
+        },
+        "milestones": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["label", "due"],
+            "additionalProperties": false,
+            "properties": {
+              "label": { "type": "string", "enum": ["midterm", "endterm"] },
+              "due": { "type": "string", "format": "date", "description": "midterm≈2028-10, endterm≈2030" },
+              "note": { "type": "string" }
+            }
+          }
+        },
+        "updatedAt": { "type": "string", "format": "date" }
+      }
+    }
+  }
+}

@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  gates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Check (astro check + validate:promises)
+        run: pnpm check
+
+      - name: No external font requests
+        run: |
+          if grep -rEn "fonts.googleapis|fonts.gstatic" src public; then
+            echo "External font reference found — fonts must be self-hosted." >&2
+            exit 1
+          fi
+
+      - name: Build
+        run: pnpm build
+
+      - name: Lighthouse CI (mobile, Perf/A11y >= 0.95)
+        run: pnpm dlx @lhci/cli@0.14.x autorun
