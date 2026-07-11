@@ -1,0 +1,23 @@
+/* Design tokeny — zadanie kap. 4.1 / 02-contracts.md §2. Záväzné hodnoty, žiadne odchýlky bez ADR. */
+:root {
+  /* Farby */
+  --ink:    #1C3A5E;  /* atramentová — nadpisy, logo, čiary, inverzný hero */
+  --paper:  #FAF8F3;  /* teplá papierová biela — pozadie */
+  --text:   #25303B;  /* beh textu */
+  --muted:  #5A6673;  /* sekundárny text */
+  --accent: #D9932B;  /* okrová — CTA, podčiarknutia; max 5–10 % plochy */
+  --line:   #C9D2DC;  /* vlasové deliace linky */
+
+  /* Statusy sľubníka (tlmené) */
+  --status-done:     #2E7D5B;  /* ✅ hotové */
+  --status-progress: #C08A1F;  /* 🟡 v procese */
+  --status-blocked:  #B3452F;  /* 🔴 zaseknuté */
+  --status-failed:   #8A8F98;  /* ⚪ nevyšlo */
+
+  /* Typografia */
+  --font-sans:  "IBM Plex Sans", system-ui, sans-serif;
+  --font-serif: "IBM Plex Serif", Georgia, serif;
+  --font-mono:  "IBM Plex Mono", ui-monospace, monospace;
+  --measure:    70ch;   /* max šírka behu textu ~70 znakov */
+  --leading:    1.6;    /* riadkovanie behu textu */
+}
