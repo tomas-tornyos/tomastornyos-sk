@@ -1,0 +1,56 @@
+---
+/**
+ * §15 pätička — DRAFT (02-contracts §7, ui-spec).
+ * Označenie podľa § 15 zák. č. 181/2014 Z. z. Placeholdery ostávajú viditeľne
+ * označené `[DRAFT — S7]`; presné znenie a údaje potvrdzuje S7 (úloha 12.5).
+ * Trvalý prvok — bude na každej stránke aj po launchi.
+ */
+---
+
+<footer class="site-footer">
+  <hr class="rule" />
+  <p class="disclosure">
+    <strong>Objednávateľ:</strong> Ing. arch. Tomáš Tornyos, [obec trvalého pobytu]
+    <span class="draft">[DRAFT — S7]</span>
+  </p>
+  <p class="disclosure">
+    <strong>Dodávateľ:</strong> [meno/názov dodávateľa]
+    <span class="draft">[DRAFT — S7]</span>
+  </p>
+  <p class="disclosure note">
+    Označenie podľa § 15 zák. č. 181/2014 Z. z. — návrh, čaká na právnu kontrolu.
+  </p>
+</footer>
+
+<style>
+  .site-footer {
+    margin-block-start: auto;
+    font-size: 0.8125rem; /* ~13 px, malé písmo */
+    color: var(--muted);
+  }
+
+  .disclosure {
+    margin-block-start: 0.5rem;
+  }
+
+  .disclosure strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .draft {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+
+  .note {
+    margin-block-start: 0.75rem;
+  }
+
+  .rule {
+    margin-block-end: 1.25rem;
+  }
+</style>

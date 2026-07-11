@@ -1,17 +1,36 @@
 ---
-
+/**
+ * `/` — dočasná stránka „pripravujeme" (ui-spec, 03-implementation-guide Krok 5).
+ * Žiadny kampaňový obsah, žiadne dekorácie. Dôkaz, že web žije a je rýchly.
+ */
+import Base from "../layouts/Base.astro";
+import Footer from "../components/Footer.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Base title="Ing. arch. Tomáš Tornyos">
+  <main class="intro">
+    <p class="eyebrow">Nezávislý kandidát · MsZ Banská Bystrica</p>
+    <h1>Ing. arch. Tomáš Tornyos</h1>
+    <p class="status">Web sa pripravuje.</p>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  .intro {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  h1 {
+    font-size: clamp(1.75rem, 8vw, 2.5rem);
+    letter-spacing: -0.01em;
+  }
+
+  .status {
+    color: var(--text);
+    max-width: var(--measure);
+  }
+</style>
