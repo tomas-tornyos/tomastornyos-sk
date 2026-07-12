@@ -40,7 +40,8 @@ SIL Open Font License 1.1 (`public/fonts/LICENSE-fonts.txt`).
 
 1. Prepoj repozitár s Cloudflare Pages (framework preset **Astro**).
 2. Build command: `pnpm build` · Output directory: `dist` · Production branch: `main`.
-3. Nastav env `NODE_VERSION=22` (repo vyžaduje Node ≥ 22.12; default CF je nižší).
+3. Node verzia je pripnutá súborom `.node-version` (`22.12.0`) — netreba nastavovať
+   env `NODE_VERSION` v dashboarde (repo vyžaduje Node ≥ 22.12; default CF je nižší).
 4. Cloudflare auto-detekuje `pnpm-lock.yaml` → inštaluje cez pnpm.
 5. Každý push do `main` = deploy; PR = preview URL. Fallback doména: `*.pages.dev`
    (custom doména tomastornyos.sk cez Cloudflare, úloha 12.2).
