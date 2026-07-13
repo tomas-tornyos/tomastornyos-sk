@@ -11,7 +11,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "validate:promises": "node scripts/validate-promises.mjs",
-    "check": "astro check && pnpm validate:promises"
+    "check": "astro check && pnpm validate:promises",
+    "check:s1": "node scripts/check-s1-dist.mjs"
   },
   "dependencies": {
     "astro": "^7.0.7"
