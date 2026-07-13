@@ -1,0 +1,92 @@
+---
+/**
+ * O mne (04-ui-spec §O mne, 02-contracts §4). Jeden <h2>. Oddelené od hero vlasovou linkou.
+ * Blok 1 — osobný naratív (Verzia B): Serif, --step-lead, --text — Serif signalizuje osobnú
+ *          výpoveď (kap. 4.3), NIE plošne.
+ * Blok 2 — profesijný dôkaz (Verzia A): Sans, --step-body. Žiadne tvrdenie bez dôkazu, žiadne karty.
+ * Blok 3 — odkaz na architektonickú prácu (architt.sk), target=_blank, rel=noopener noreferrer.
+ * Znenie z copy.ts. `id="o-mne"` je aj cieľom hero CTA v S1.
+ */
+import { ABOUT } from "../content/copy";
+---
+
+<section id="o-mne" class="about" aria-labelledby="about-heading">
+  <hr class="rule" />
+  <h2 id="about-heading">{ABOUT.heading}</h2>
+
+  <div class="about__narrative">
+    {ABOUT.narrative.map((p) => <p>{p}</p>)}
+  </div>
+
+  <div class="about__proof">
+    <p>{ABOUT.proofLead}</p>
+    <p class="about__list-intro">{ABOUT.proofListIntro}</p>
+    <ul class="about__list">
+      {ABOUT.proofList.map((item) => <li>{item}</li>)}
+    </ul>
+    <p>{ABOUT.proofCity}</p>
+    <p class="about__link">
+      {ABOUT.link.lead}<a
+        href={ABOUT.link.href}
+        target="_blank"
+        rel="noopener noreferrer">{ABOUT.link.text}</a>{ABOUT.link.suffix}
+    </p>
+  </div>
+</section>
+
+<style>
+  .about {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .about h2 {
+    font-size: var(--step-h2);
+  }
+
+  /* Blok 1 — osobný naratív: Serif, len tu. */
+  .about__narrative {
+    font-family: var(--font-serif);
+    font-size: var(--step-lead);
+    color: var(--text);
+    max-width: var(--measure);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  /* Blok 2 — profesijný dôkaz: Sans (dedí z body), beh textu. */
+  .about__proof {
+    font-size: var(--step-body);
+    color: var(--text);
+    max-width: var(--measure);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .about__list-intro {
+    margin-block-end: -0.5rem;
+  }
+
+  /* Jednoduché položky — pomlčka/odrážka bez ozdôb, žiadne karty. */
+  .about__list {
+    margin: 0;
+    padding-inline-start: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .about__list li {
+    padding-inline-start: 0.25rem;
+  }
+
+  .about__link a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-underline-offset: 0.15em;
+  }
+</style>

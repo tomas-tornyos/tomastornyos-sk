@@ -1,0 +1,93 @@
+---
+/**
+ * /ochrana-udajov — GDPR v1 DRAFT placeholder (04-ui-spec §/ochrana-udajov, 02-contracts §5).
+ * `noindex` (dedí z Base). Žiadny reálny/záväzný právny text, žiadny formulár, žiadny zber dát.
+ * Reálne znenie doplní S7 (úloha 12.7). Odkaz späť na `/`.
+ */
+import Base from "../layouts/Base.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Base title="Ochrana osobných údajov — Tomáš Tornyos">
+  <main class="gdpr">
+    <p class="eyebrow">Ochrana údajov · návrh</p>
+    <h1>Ochrana osobných údajov</h1>
+
+    <p class="draft-banner">
+      DRAFT — návrh, čaká na právnu kontrolu (S7). Zatiaľ neplatné znenie.
+    </p>
+
+    <div class="gdpr__body">
+      <p>
+        Táto stránka je zatiaľ len štruktúrny náčrt. Nižšie uvedené body sú placeholder —
+        záväzné znenie dodá právna kontrola.
+      </p>
+      <ul>
+        <li><strong>Prevádzkovateľ:</strong> Tomáš Tornyos (fyzická osoba). [DRAFT — S7]</li>
+        <li><strong>Účel spracúvania:</strong> [doplní S7 — v S1 sa žiadne údaje nezbierajú]. [DRAFT — S7]</li>
+        <li><strong>Práva dotknutej osoby:</strong> [prístup, oprava, výmaz, námietka — presné znenie S7]. [DRAFT — S7]</li>
+      </ul>
+      <p class="gdpr__note">
+        V tejto fáze (S1) web nezbiera žiadne osobné údaje — žiadny formulár, žiadne cookies,
+        žiadna analytika.
+      </p>
+      <p><a class="back" href="/">← Späť na úvod</a></p>
+    </div>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  .gdpr {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .gdpr h1 {
+    font-size: var(--step-h2);
+  }
+
+  /* Draft banner — okrové podčiarknutie/rámik, nie farba behového textu. */
+  .draft-banner {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--ink);
+    border: 1.5px solid var(--accent);
+    padding: 0.5rem 0.75rem;
+    max-width: var(--measure);
+  }
+
+  .gdpr__body {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    color: var(--text);
+    max-width: var(--measure);
+  }
+
+  .gdpr__body ul {
+    margin: 0;
+    padding-inline-start: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .gdpr__body strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .gdpr__note {
+    color: var(--muted);
+  }
+
+  .back {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-underline-offset: 0.15em;
+  }
+</style>

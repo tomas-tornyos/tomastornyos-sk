@@ -1,0 +1,154 @@
+---
+/**
+ * Hero — parametrizovaný, 2 typografické varianty (ADR-0003, 04-ui-spec §Hero).
+ * `variant: "a"` = „claim-forward" (Sans, dôraz na claim).
+ * `variant: "b"` = „serif statement" (claim v Serif, dôraz na meno).
+ *
+ * TVRDÉ PRAVIDLO: oba varianty majú ROVNAKÉ texty aj ROVNAKÉ farby (obe na --paper).
+ * Rozdiel je IBA v mierke, reze, rodine claimu a vertikálnom rytme — riadi ho root trieda
+ * `.hero--a` / `.hero--b`, markup a text sú inak rovnaké. Žiadna inverzia, žiadny farebný
+ * rozdiel (kap. 8, 00-CLAUDE.md must-not). Žiadny negatívny letter-spacing. Žiadna animácia.
+ */
+import { HERO, CLAIMS, ACTIVE_CLAIM, CTA } from "../content/copy";
+
+interface Props {
+  variant: "a" | "b";
+}
+
+const { variant } = Astro.props;
+const { claim, subtitle } = CLAIMS[ACTIVE_CLAIM];
+---
+
+<section class={`hero hero--${variant}`} data-hero>
+  <p class="eyebrow">{HERO.eyebrow}</p>
+  <h1 class="hero__name">{HERO.name}</h1>
+  <p class="hero__claim">{claim}</p>
+  <p class="hero__subtitle">{subtitle}</p>
+  <p class="hero__team">{HERO.team}</p>
+  <div class="hero__cta">
+    {
+      CTA.map((c) => (
+        <a
+          class:list={["cta", { "cta--primary": c.primary }]}
+          href={c.href}
+          data-future-target={c.futureTarget}
+        >
+          {c.label}
+        </a>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  /* ---- Spoločné (oba varianty) ---- */
+  .hero {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero .eyebrow {
+    margin-block-end: 1.5rem;
+  }
+
+  .hero__name,
+  .hero__claim {
+    color: var(--ink);
+    max-width: var(--measure);
+  }
+
+  .hero__subtitle {
+    color: var(--muted);
+    font-size: var(--step-lead);
+    max-width: var(--measure);
+  }
+
+  .hero__team {
+    color: var(--text);
+  }
+
+  .hero__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+  }
+
+  /* CTA: primárne = rámik s okrovým akcentom + atramentový text (≤ 5–10 % plochy);
+     sekundárne = obyčajný odkaz s okrovým podčiarknutím. Tap-target ≥ 44 px. */
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding-block: 0.5rem;
+    padding-inline: 0.25rem;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 1.2;
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-underline-offset: 0.15em;
+  }
+
+  .cta--primary {
+    padding-inline: 1rem;
+    border: 1.5px solid var(--accent);
+    text-decoration: none;
+  }
+
+  /* ---- Variant A: „claim-forward" (Sans, dôraz na claim) ---- */
+  .hero--a .hero__name {
+    font-size: var(--step-h2);
+    font-weight: 600;
+    margin-block-end: 1.25rem;
+  }
+
+  .hero--a .hero__claim {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: var(--step-display);
+    line-height: 1.1;
+  }
+
+  .hero--a .hero__subtitle {
+    margin-block-start: 1.25rem;
+  }
+
+  .hero--a .hero__team {
+    margin-block-start: 1.5rem;
+  }
+
+  .hero--a .hero__cta {
+    margin-block-start: 1.75rem;
+  }
+
+  /* ---- Variant B: „serif statement" (Serif claim, dôraz na meno) ---- */
+  .hero--b .hero__name {
+    font-size: var(--step-display);
+    font-weight: 600;
+    line-height: 1.1;
+    margin-block-end: 0.5rem;
+  }
+
+  .hero--b .hero__claim {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(1.5rem, 1.1rem + 2vw, 2.5rem);
+    line-height: 1.25;
+    text-wrap: balance;
+  }
+
+  .hero--b .hero__subtitle {
+    margin-block-start: 1.25rem;
+  }
+
+  .hero--b .hero__team {
+    margin-block-start: 1.5rem;
+  }
+
+  /* Osobnejší rytmus: väčší odstup pred CTA. */
+  .hero--b .hero__cta {
+    margin-block-start: 2.5rem;
+  }
+</style>

@@ -1,7 +1,8 @@
 ---
 /**
- * `/` — variant A (04-ui-spec §Routy, ADR-0003). Hero „claim-forward" + O mne + pätička.
- * Identický obsah ako `/b`; líši sa IBA typografickým variantom hero. `noindex` dedí z Base.
+ * `/b` — variant B (04-ui-spec §Routy, ADR-0003). Hero „serif statement" + O mne + pätička.
+ * IDENTICKÝ obsah aj farby ako `/`; líši sa IBA typografickým variantom hero. `noindex` dedí z Base.
+ * Zdieľa About/Footer/texty s `/` — jeden zdroj (copy.ts), aby sa varianty nerozišli v obsahu.
  */
 import Base from "../layouts/Base.astro";
 import Hero from "../components/Hero.astro";
@@ -11,7 +12,7 @@ import Footer from "../components/Footer.astro";
 
 <Base title="Tomáš Tornyos — architekt">
   <main class="page-main">
-    <Hero variant="a" />
+    <Hero variant="b" />
     <About />
   </main>
 
