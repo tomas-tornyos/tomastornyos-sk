@@ -10,6 +10,7 @@
  * rozdiel (kap. 8, 00-CLAUDE.md must-not). Žiadny negatívny letter-spacing. Žiadna animácia.
  */
 import { HERO, CLAIMS, ACTIVE_CLAIM, CTA } from "../content/copy";
+const { signatures } = HERO;
 
 interface Props {
   variant: "a" | "b";
@@ -25,6 +26,7 @@ const { claim, subtitle } = CLAIMS[ACTIVE_CLAIM];
   <p class="hero__claim">{claim}</p>
   <p class="hero__subtitle">{subtitle}</p>
   <p class="hero__team">{HERO.team}</p>
+  <p class="hero__note">{signatures}</p>
   <div class="hero__cta">
     {
       CTA.map((c) => (
@@ -65,6 +67,14 @@ const { claim, subtitle } = CLAIMS[ACTIVE_CLAIM];
 
   .hero__team {
     color: var(--text);
+  }
+
+  /* Status o zbere podpisov — nenápadná poznámka pod vetou o tíme. */
+  .hero__note {
+    color: var(--muted);
+    font-size: 1rem;
+    max-width: var(--measure);
+    margin-block-start: 0.5rem;
   }
 
   .hero__cta {

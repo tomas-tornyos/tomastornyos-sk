@@ -77,7 +77,7 @@ const html = `<!doctype html><html lang="sk"><head><meta charset="utf-8"/>
   .team{font-size:30px;color:#5A6673;margin-top:14px}
 </style></head>
 <body>
-  <div class="eyebrow">Nezávislý kandidát · MsZ Banská Bystrica</div>
+  <div class="eyebrow">Rozhodol som sa kandidovať · MsZ Banská Bystrica</div>
   <div class="name">Tomáš Tornyos</div>
   <div class="accent"></div>
   <div class="meta"><span class="prof">architekt</span> · Sásová a Rudlová</div>

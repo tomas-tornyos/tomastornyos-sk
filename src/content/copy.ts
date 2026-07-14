@@ -10,9 +10,12 @@
 /* ---------- Hero ---------- */
 
 export const HERO = {
-  eyebrow: "Nezávislý kandidát · MsZ Banská Bystrica · Sásová a Rudlová",
+  eyebrow: "Rozhodol som sa kandidovať · MsZ Banská Bystrica · Sásová a Rudlová",
   name: "Tomáš Tornyos — architekt",
   team: "Kandidujem v tíme Molitoris.",
+  // Status: zatiaľ nie je formálny kandidát — zbiera podpisy (žiadny ONLINE zber, len info).
+  signatures:
+    "Zatiaľ zbieram podpisy, vďaka ktorým budem môcť podať kandidatúru ako nezávislý poslanec.",
 } as const;
 
 /**
@@ -22,8 +25,7 @@ export const HERO = {
 export const CLAIMS = {
   k1: {
     claim: "Aby sa v Sásovej oplatilo zostať",
-    subtitle:
-      "Nezávislý kandidát na poslanca za Sásovú a Rudlovú (tím Molitoris). Sľuby, ktoré si viete skontrolovať.",
+    subtitle: "Za Sásovú a Rudlovú. Sľuby, ktoré si viete skontrolovať.",
   },
   k2: {
     claim: "Sásová a Rudlová: pokoj, priestor, poriadok",
@@ -64,9 +66,9 @@ export const ABOUT = {
 
   /** Blok 1 — osobný naratív (Verzia B), Serif. Tri odseky. */
   narrative: [
-    "Býval som v Sásovej. Kočíkoval som v nej dve z troch svojich detí. Do práce som chodieval na bicykli — po cestách, nebezpečne. Krásna príroda na dosah, ale kam ísť na opekačku? A parkovať som sa naučil ako majster: kamaráti obdivovali moje umenie vtesnať sa do najmenšieho miesta. V kopci. So spiatočkou.",
+    "Býval som v Sásovej. Do práce som chodieval na bicykli — po cestách, nebezpečne. Krásna príroda na dosah, ale kam ísť na opekačku? Parkovať som sa naučil ako majster: kamaráti obdivovali moje umenie vtesnať sa do najmenšieho miesta. V kopci. So spiatočkou. A dve z troch svojich detí som kočíkoval práve tu.",
     "Čo sa odvtedy zmenilo? Nie veľa.",
-    "Až s odstupom — a s okom architekta — som pochopil, aké dobré kosti Sásová má. Mierka, zeleň medzi domami, výhľady. To sa nedá dostavať. To sa dá len pokaziť. Alebo ustrážiť.",
+    "Až s odstupom — a s okom architekta — som pochopil, aký dobrý základ Sásová má. Mierka, zeleň medzi domami, výhľady. To sa nedá dostavať. To sa dá len pokaziť. Alebo ustrážiť.",
   ],
 
   /** Blok 2 — profesijný dôkaz (Verzia A), Sans. */
@@ -109,7 +111,7 @@ export const FOOTER = {
 export const OG = {
   title: "Tomáš Tornyos — architekt · Sásová a Rudlová",
   description:
-    "Ing. arch. Tomáš Tornyos — nezávislý kandidát na poslanca MsZ Banská Bystrica za Sásovú a Rudlovú (tím Molitoris).",
+    "Ing. arch. Tomáš Tornyos — architekt. Rozhodol som sa kandidovať za poslanca MsZ Banská Bystrica pre Sásovú a Rudlovú (tím Molitoris).",
   image: "/og/og-default.png",
   width: 1200,
   height: 630,
