@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 /*
- * S1 dist hardening gate (03-implementation-guide Krok 1, 05-verification S1-4/5/10/11/13/17/18/21).
+ * S1 dist hardening gate (03-implementation-guide Krok 1, 05-verification S1-10/11/13/17/18/21).
  * Beží PO `pnpm build` nad `dist/`. Overuje staticky všetko, čo sa dá:
- *  - routy `/`, `/b`, `/ochrana-udajov` existujú;
- *  - `/` a `/b` majú IDENTICKÝ hero text (claim/podtitul/tím/CTA) a líšia sa iba markupom/triedami;
+ *  - routy `/`, `/ochrana-udajov` existujú (routa `/b` odstránená — variant A je definitíva);
  *  - všetky interné `href="#..."` majú existujúci `id` na tej istej stránke;
  *  - `robots: noindex` je na všetkých HTML;
  *  - žiadny externý font request ani analytics/cookies skript;
@@ -62,19 +61,6 @@ const FORBIDDEN_PATTERNS = [
   "hotjar",
 ];
 
-// Vyextrahuje viditeľný textový obsah hero bloku (data-hero) bez značiek a whitespace,
-// aby sa dal porovnať text `/` vs `/b` nezávisle od typografických tried/markupu.
-function heroText(html) {
-  const m = html.match(/<section[^>]*data-hero[^>]*>([\s\S]*?)<\/section>/i);
-  if (!m) return null;
-  return m[1]
-    .replace(/<[^>]+>/g, " ") // preč značky
-    .replace(/&amp;/g, "&")
-    .replace(/&#8217;|&rsquo;/g, "’")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
 // Zbierka href="#..." fragmentov a id="..." na stránke.
 function collectFragments(html) {
   const hrefs = [...html.matchAll(/href="#([^"]+)"/g)].map((m) => m[1]);
@@ -86,7 +72,6 @@ async function main() {
   // 1) Routy existujú (S1-1, S1-3).
   const pages = {
     index: await readHtml("index.html"),
-    b: await readHtml("b/index.html"),
     gdpr: await readHtml("ochrana-udajov/index.html"),
   };
 
@@ -108,36 +93,21 @@ async function main() {
     }
   }
 
-  // 4) Žiadny klient-side JS pre obsah/A/B (S1-21). Astro pri čisto statickom builde
-  //    nevkladá <script>. Ak sa nejaký nájde, vypíšeme cestu a dôvod na manuálne odsúhlasenie.
+  // 4) Žiadny klient-side JS pre obsah (S1-21). Astro pri čisto statickom builde nevkladá
+  //    <script>. Ak sa nejaký nájde, vypíšeme cestu a dôvod na manuálne odsúhlasenie.
   for (const [name, html] of allHtml) {
     const scripts = [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)];
     for (const s of scripts) {
       const attrs = s[1];
       const isJsonLd = /type="application\/(ld\+json|json)"/i.test(attrs);
       if (isJsonLd) continue;
-      warn(`Stránka ${name}: nájdený <script${attrs}> — over, že to nie je A/B ani obsahový island.`);
+      warn(`Stránka ${name}: nájdený <script${attrs}> — over, že to nie je obsahový island.`);
     }
   }
 
-  // 5) `/` a `/b` majú rovnaký hero text, líšia sa iba markupom (S1-4, S1-5).
-  if (pages.index && pages.b) {
-    const ta = heroText(pages.index);
-    const tb = heroText(pages.b);
-    if (!ta || !tb) {
-      fail("Nenašiel sa hero blok s atribútom data-hero na `/` alebo `/b`.");
-    } else if (ta !== tb) {
-      fail(
-        "Hero text `/` a `/b` sa líši — musia byť identické (rozdiel iba typografia).\n" +
-          `  /  = ${ta}\n  /b = ${tb}`,
-      );
-    }
-    // Poistka: markup sa MÁ líšiť (inak nie sú dva typografické varianty).
-    const heroA = (pages.index.match(/<section[^>]*data-hero[^>]*>[\s\S]*?<\/section>/i) || [])[0];
-    const heroB = (pages.b.match(/<section[^>]*data-hero[^>]*>[\s\S]*?<\/section>/i) || [])[0];
-    if (heroA && heroB && heroA === heroB) {
-      fail("Hero markup `/` a `/b` je identický — chýba typografický rozdiel variantov A/B.");
-    }
+  // 5) Hero blok existuje na `/` (S1-1). Data marker pre budúce sekcie/kontroly.
+  if (pages.index && !/<section[^>]*data-hero[^>]*>/i.test(pages.index)) {
+    fail("Nenašiel sa hero blok s atribútom data-hero na `/`.");
   }
 
   // 6) Interné fragmenty nie sú mŕtve (S1-4). Každý href="#x" má id="x" na tej istej stránke.
@@ -150,8 +120,8 @@ async function main() {
     }
   }
 
-  // 7) OG/Twitter meta na `/` a `/b` (S1-10, S1-11). Absolútna og:image 1200×630, súbor existuje.
-  for (const [name, html] of [["index", pages.index], ["b", pages.b]]) {
+  // 7) OG/Twitter meta na `/` (S1-10, S1-11). Absolútna og:image 1200×630, súbor existuje.
+  for (const [name, html] of [["index", pages.index]]) {
     if (!html) continue;
     const need = [
       [/<meta[^>]+property="og:title"[^>]+content="[^"]+"/i, "og:title"],
@@ -191,7 +161,7 @@ async function main() {
     for (const e of errors) console.error(`  • ${e}`);
     process.exit(1);
   }
-  console.log("✓ check:s1 — routy, hero A/B text, fragmenty, noindex, OG/meta, žiadne externé/tracking/JS — OK");
+  console.log("✓ check:s1 — routy, hero blok, fragmenty, noindex, OG/meta, žiadne externé/tracking/JS — OK");
 }
 
 await main();

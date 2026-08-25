@@ -1,7 +1,7 @@
 ---
 /**
- * `/` — variant A (04-ui-spec §Routy, ADR-0003). Hero „claim-forward" + O mne + pätička.
- * Identický obsah ako `/b`; líši sa IBA typografickým variantom hero. `noindex` dedí z Base.
+ * `/` — jediná routa (04-ui-spec §Routy). Hero „claim-forward" + O mne + pätička.
+ * Variant A je definitíva (2026-07-14); route-based A/B z ADR-0003 je rozpustené. `noindex` dedí z Base.
  */
 import Base from "../layouts/Base.astro";
 import Hero from "../components/Hero.astro";
@@ -11,7 +11,7 @@ import Footer from "../components/Footer.astro";
 
 <Base title="Tomáš Tornyos — architekt">
   <main class="page-main">
-    <Hero variant="a" />
+    <Hero />
     <About />
   </main>
 
