@@ -1,0 +1,113 @@
+---
+/**
+ * Hero — jediný variant (rozhodnutie kandidáta 2026-07-14: variant A je definitíva).
+ * Pôvodný route-based A/B mechanizmus (ADR-0003) sa po výbere víťaza rozpúšťa: `variant` prop
+ * a routa `/b` sú odstránené, ostáva jeden „claim-forward" hero (Sans, dôraz na claim).
+ * Pokojná plocha na --paper. Žiadny negatívny letter-spacing, žiadna animácia, žiadny farebný trik.
+ */
+import { HERO, CLAIMS, ACTIVE_CLAIM, CTA } from "../content/copy";
+const { claim, subtitle } = CLAIMS[ACTIVE_CLAIM];
+const { signatures } = HERO;
+---
+
+<section class="hero" data-hero>
+  <p class="eyebrow">{HERO.eyebrow}</p>
+  <h1 class="hero__name">{HERO.name}</h1>
+  <p class="hero__claim">{claim}</p>
+  <p class="hero__subtitle">{subtitle}</p>
+  <p class="hero__team">{HERO.team}</p>
+  <p class="hero__note">{signatures}</p>
+  <div class="hero__cta">
+    {
+      CTA.map((c) => (
+        <a
+          class:list={["cta", { "cta--primary": c.primary }]}
+          href={c.href}
+          data-future-target={c.futureTarget}
+        >
+          {c.label}
+        </a>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .hero {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero .eyebrow {
+    margin-block-end: 1.5rem;
+  }
+
+  .hero__name {
+    color: var(--ink);
+    max-width: var(--measure);
+    font-size: var(--step-h2);
+    font-weight: 600;
+    margin-block-end: 1.25rem;
+  }
+
+  /* Claim dominuje: display v Sans, prirodzený rytmus bez negatívneho letter-spacingu. */
+  .hero__claim {
+    color: var(--ink);
+    max-width: var(--measure);
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: var(--step-display);
+    line-height: 1.1;
+  }
+
+  .hero__subtitle {
+    color: var(--muted);
+    font-size: var(--step-lead);
+    max-width: var(--measure);
+    margin-block-start: 1.25rem;
+  }
+
+  .hero__team {
+    color: var(--text);
+    margin-block-start: 1.5rem;
+  }
+
+  /* Status o zbere podpisov — nenápadná poznámka pod vetou o tíme. */
+  .hero__note {
+    color: var(--muted);
+    font-size: 1rem;
+    max-width: var(--measure);
+    margin-block-start: 0.5rem;
+  }
+
+  .hero__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+    margin-block-start: 1.75rem;
+  }
+
+  /* CTA: primárne = rámik s okrovým akcentom + atramentový text (≤ 5–10 % plochy);
+     sekundárne = obyčajný odkaz s okrovým podčiarknutím. Tap-target ≥ 44 px. */
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding-block: 0.5rem;
+    padding-inline: 0.25rem;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 1.2;
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-underline-offset: 0.15em;
+  }
+
+  .cta--primary {
+    padding-inline: 1rem;
+    border: 1.5px solid var(--accent);
+    text-decoration: none;
+  }
+</style>

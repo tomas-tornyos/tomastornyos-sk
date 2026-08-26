@@ -1,10 +1,12 @@
 ---
 /**
- * §15 pätička — DRAFT (02-contracts §7, ui-spec).
- * Označenie podľa § 15 zák. č. 181/2014 Z. z. Placeholdery ostávajú viditeľne
- * označené `[DRAFT — S7]`; presné znenie a údaje potvrdzuje S7 (úloha 12.5).
+ * Pätička — DRAFT (02-contracts §5/§7, 04-ui-spec §Pätička).
+ * §15 označenie zo S0 + S1 rozšírenie: GDPR odkaz, náklady kampane (placeholder),
+ * veta o architektonickej práci (kap. 3). Nové položky viditeľne `[DRAFT — S7]`;
+ * presné znenie a údaje potvrdzuje S7 (úloha 12.5/12.7). Žiadny formulár/zber v S1.
  * Trvalý prvok — bude na každej stránke aj po launchi.
  */
+import { FOOTER } from "../content/copy";
 ---
 
 <footer class="site-footer">
@@ -19,6 +21,25 @@
   </p>
   <p class="disclosure note">
     Označenie podľa § 15 zák. č. 181/2014 Z. z. — návrh, čaká na právnu kontrolu.
+  </p>
+
+  <p class="disclosure">
+    <a class="footer-link" href={FOOTER.gdprHref}>{FOOTER.gdprLabel}</a>
+    <span class="draft">[DRAFT — S7]</span>
+  </p>
+  <p class="disclosure">
+    {FOOTER.costs}
+    <span class="draft">[DRAFT — S7]</span>
+  </p>
+  {/* „Architekt" je trvalá faktická veta (byline), nie právny placeholder — v 02-contracts §5
+      je v zozname položiek uvedená BEZ [DRAFT — S7], na rozdiel od GDPR a nákladov. Preto tu
+      zámerne nie je draft marker. */}
+  <p class="disclosure architect">
+    {FOOTER.architect.lead}<a
+      class="footer-link"
+      href={FOOTER.architect.href}
+      target="_blank"
+      rel="noopener noreferrer">{FOOTER.architect.text}</a>{FOOTER.architect.suffix}
   </p>
 </footer>
 
@@ -50,6 +71,18 @@
 
   .note {
     margin-block-start: 0.75rem;
+  }
+
+  .architect {
+    margin-block-start: 0.75rem;
+  }
+
+  /* Odkaz: atramentový text, okrové podčiarknutie (nie farba textu) — ako v S0. */
+  .footer-link {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-underline-offset: 0.15em;
   }
 
   .rule {

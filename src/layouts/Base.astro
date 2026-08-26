@@ -6,16 +6,25 @@
 import "../styles/tokens.css";
 import "../styles/fonts.css";
 import "../styles/base.css";
+import "../styles/type.css";
+import { OG } from "../content/copy";
 
 interface Props {
   title: string;
   description?: string;
+  /** OG obrázok (verejná cesta); default neutrálny OG v1 bez claimu (02-contracts §6). */
+  ogImage?: string;
 }
 
 const {
   title,
-  description = "Ing. arch. Tomáš Tornyos — nezávislý kandidát na poslanca MsZ Banská Bystrica, obvod Sásová/Rudlová.",
+  description = "Ing. arch. Tomáš Tornyos — architekt. Rozhodol som sa kandidovať za poslanca MsZ Banská Bystrica pre Sásovú a Rudlovú (tím Molitoris).",
+  ogImage = OG.image,
 } = Astro.props;
+
+// Absolútne URL cez Astro.site (02-contracts §6). OG tagy nekolidujú s noindex.
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImageAbs = new URL(ogImage, Astro.site);
 ---
 
 <!doctype html>
@@ -26,6 +35,21 @@ const {
     <meta name="robots" content="noindex" />
     <title>{title}</title>
     <meta name="description" content={description} />
+
+    {/* OG / Twitter — v1 neutrálne (bez testovacieho claimu K1–K3); 02-contracts §6.
+        noindex ostáva — OG je pre zdieľanie v messengeroch, nie pre index. */}
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="sk_SK" />
+    <meta property="og:title" content={OG.title} />
+    <meta property="og:description" content={OG.description} />
+    <meta property="og:url" content={canonical.href} />
+    <meta property="og:image" content={ogImageAbs.href} />
+    <meta property="og:image:width" content={String(OG.width)} />
+    <meta property="og:image:height" content={String(OG.height)} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={OG.title} />
+    <meta name="twitter:description" content={OG.description} />
+    <meta name="twitter:image" content={ogImageAbs.href} />
   </head>
   <body>
     <div class="wrap page">

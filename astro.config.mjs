@@ -1,8 +1,18 @@
-// @ts-check
+// Bez `// @ts-check`: config číta Node `process.env` (CF_PAGES_*), no @types/node nie je
+// závislosťou projektu — type-check configu by inak hlásil „Cannot find name 'process'".
 import { defineConfig } from 'astro/config';
+
+// Canonical + absolútne OG URL. Cloudflare preview deploye (vetva ≠ main) používajú URL daného
+// deployu (CF_PAGES_URL), aby boli og:image a canonical DOSTUPNÉ aj pred spustením produkčnej
+// domény (tomastornyos.sk zatiaľ nemá DNS) — inak by FB/WhatsApp náhľad (S1-12) nenačítal obrázok.
+// Produkcia (main) a lokálny build = produkčná doména.
+const previewUrl =
+  process.env.CF_PAGES_BRANCH && process.env.CF_PAGES_BRANCH !== 'main'
+    ? process.env.CF_PAGES_URL
+    : undefined;
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://tomastornyos.sk',
+  site: previewUrl || 'https://tomastornyos.sk',
   output: 'static',
 });

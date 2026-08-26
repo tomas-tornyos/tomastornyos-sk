@@ -34,5 +34,11 @@ jobs:
       - name: Build
         run: pnpm build
 
+      - name: S1 dist hardening gate (OG, noindex, no client JS, live fragments)
+        run: pnpm check:s1
+
       - name: Lighthouse CI (mobile, Perf/A11y >= 0.95)
-        run: pnpm dlx @lhci/cli@0.14.x autorun
+        run: |
+          pnpm dlx @lhci/cli@0.14.x collect
+          node scripts/lh-annotate.mjs
+          pnpm dlx @lhci/cli@0.14.x assert

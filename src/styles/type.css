@@ -1,0 +1,13 @@
+/*
+ * Typografická škála — 02-contracts §2 (kap. 4.3). LEN veľkosti/rytmus.
+ * Žiadne nové farby ani rodiny (tie sú v tokens.css zo S0). Fluidné clamp(), mobile-first.
+ * Beh textu ostáva ≤ --measure (~70 znakov/riadok); žiadne verzálkové odseky (len eyebrow);
+ * žiadne kondenzované rezy; žiadny negatívny letter-spacing.
+ */
+:root {
+  --step-eyebrow: 0.6875rem;                                     /* ~11 px, Mono eyebrow */
+  --step-body:    1.125rem;                                      /* ~18 px, beh textu (zo S0) */
+  --step-lead:    clamp(1.1875rem, 1.05rem + 0.7vw, 1.375rem);   /* úvod O mne */
+  --step-h2:      clamp(1.375rem, 1.2rem + 1vw, 1.875rem);       /* nadpisy sekcií */
+  --step-display: clamp(2rem, 1.4rem + 3.2vw, 3.25rem);         /* hero claim/meno */
+}

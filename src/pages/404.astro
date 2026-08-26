@@ -1,0 +1,44 @@
+---
+/**
+ * 404 — stránka sa nenašla. Astro vygeneruje `dist/404.html`; Cloudflare Pages ju servuje
+ * s HTTP 404 pri neexistujúcej ceste (napr. zmazaná routa `/b`). `noindex` dedí z Base.
+ * Pokojná plocha, žiadne dekorácie — konzistentne s celým webom.
+ */
+import Base from "../layouts/Base.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Base title="Stránka sa nenašla — Tomáš Tornyos">
+  <main class="notfound">
+    <p class="eyebrow">Chyba 404</p>
+    <h1>Stránka sa nenašla</h1>
+    <p class="notfound__lead">Táto adresa neexistuje alebo sa presunula.</p>
+    <p><a class="back" href="/">← Späť na úvod</a></p>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  .notfound {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .notfound h1 {
+    font-size: var(--step-h2);
+  }
+
+  .notfound__lead {
+    color: var(--text);
+    max-width: var(--measure);
+  }
+
+  .back {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-underline-offset: 0.15em;
+  }
+</style>
