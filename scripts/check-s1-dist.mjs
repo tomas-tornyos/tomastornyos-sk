@@ -20,9 +20,7 @@ const here = dirname(fileURLToPath(import.meta.url));
 const dist = join(here, "..", "dist");
 
 const errors = [];
-const warnings = [];
 const fail = (msg) => errors.push(msg);
-const warn = (msg) => warnings.push(msg);
 
 async function exists(p) {
   try {
@@ -158,7 +156,6 @@ async function main() {
   }
 
   // --- Report ---
-  for (const w of warnings) console.warn(`⚠ ${w}`);
   if (errors.length) {
     console.error(`\n✗ check:s1 — ${errors.length} chýb:`);
     for (const e of errors) console.error(`  • ${e}`);

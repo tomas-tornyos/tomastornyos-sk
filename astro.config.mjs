@@ -1,4 +1,5 @@
-// @ts-check
+// Bez `// @ts-check`: config číta Node `process.env` (CF_PAGES_*), no @types/node nie je
+// závislosťou projektu — type-check configu by inak hlásil „Cannot find name 'process'".
 import { defineConfig } from 'astro/config';
 
 // Canonical + absolútne OG URL. Cloudflare preview deploye (vetva ≠ main) používajú URL daného
