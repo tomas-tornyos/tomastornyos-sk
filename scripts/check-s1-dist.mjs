@@ -2,7 +2,8 @@
 /*
  * S1 dist hardening gate (03-implementation-guide Krok 1, 05-verification S1-10/11/13/17/18/21).
  * Beží PO `pnpm build` nad `dist/`. Overuje staticky všetko, čo sa dá:
- *  - routy `/`, `/ochrana-udajov` existujú (routa `/b` odstránená — variant A je definitíva);
+ *  - stránky `/`, `/ochrana-udajov`, `404.html` existujú (routa `/b` odstránená — variant A je definitíva);
+ *    noindex/tracking/JS kontroly bežia na všetkých troch;
  *  - všetky interné `href="#..."` majú existujúci `id` na tej istej stránke;
  *  - `robots: noindex` je na všetkých HTML;
  *  - žiadny externý font request ani analytics/cookies skript;
@@ -73,6 +74,7 @@ async function main() {
   const pages = {
     index: await readHtml("index.html"),
     gdpr: await readHtml("ochrana-udajov/index.html"),
+    notfound: await readHtml("404.html"),
   };
 
   const allHtml = Object.entries(pages).filter(([, v]) => v);
@@ -93,15 +95,16 @@ async function main() {
     }
   }
 
-  // 4) Žiadny klient-side JS pre obsah (S1-21). Astro pri čisto statickom builde nevkladá
-  //    <script>. Ak sa nejaký nájde, vypíšeme cestu a dôvod na manuálne odsúhlasenie.
+  // 4) Žiadny klient-side JS pre obsah / žiadne islands (S1-21, must-not). Astro pri čisto
+  //    statickom builde nevkladá <script>; akýkoľvek ne-JSON skript je porušenie brány (fail),
+  //    nie len upozornenie. Povolené sú iba dátové bloky (JSON-LD / JSON), ktoré nič nevykonávajú.
   for (const [name, html] of allHtml) {
     const scripts = [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)];
     for (const s of scripts) {
       const attrs = s[1];
-      const isJsonLd = /type="application\/(ld\+json|json)"/i.test(attrs);
-      if (isJsonLd) continue;
-      warn(`Stránka ${name}: nájdený <script${attrs}> — over, že to nie je obsahový island.`);
+      const isDataOnly = /type="application\/(ld\+json|json)"/i.test(attrs);
+      if (isDataOnly) continue;
+      fail(`Stránka ${name}: nájdený klient-side <script${attrs}> — porušuje must-not „žiadne islands/JS" (S1-21).`);
     }
   }
 

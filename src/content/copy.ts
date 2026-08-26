@@ -1,10 +1,9 @@
 /**
- * Centralizované texty pre S1 (02-contracts §1/§3/§4). Jeden zdroj pre obe routy (`/`, `/b`)
- * aj oba typografické varianty — varianty sa líšia IBA sadzbou, nie textom (ADR-0003, kap. 8).
- * Znenie prevzaté doslova z:
- *   ../../../01-content/copy/hero.md
- *   ../../../01-content/copy/o-mne.md
- * Diakritika UTF-8. Neupravovať tu obsah bez zmeny v copy súboroch.
+ * Centralizované texty pre S1 (02-contracts §1/§3/§4). Jeden zdroj pre jedinú routu `/`.
+ * Znenie prevzaté z ../../../01-content/copy/{hero,o-mne}.md; revízia kandidáta 2026-07-14
+ * (variant A definitíva, status „zbieram podpisy", bez frázy „nezávislý kandidát") je
+ * zosynchronizovaná späť do tých copy súborov. Diakritika UTF-8.
+ * Pozn.: pôvodný route-based A/B (ADR-0003) je po výbere variantu A rozpustený.
  */
 
 /* ---------- Hero ---------- */
@@ -42,9 +41,9 @@ export const CLAIMS = {
 export type ClaimKey = keyof typeof CLAIMS;
 
 /**
- * Aktívny claim pre TOTO kolo testu. `/` aj `/b` v jednom builde nesú rovnaký claim
- * (tvrdá poistka 02-contracts §3) — rozdiel medzi variantmi je iba typografia.
- * Druhé kolo na iný claim = zmena tejto jednej konštanty.
+ * Aktívny claim. NIE je zafixovaný ako finálny (00-CLAUDE.md must-not) — dá sa zmeniť na iný
+ * (K1–K3) zmenou tejto jednej konštanty bez zásahu do komponentov. Finálny claim potvrdí
+ * prípadný recall test (`03-testing/G1-recall-harok.md`).
  */
 export const ACTIVE_CLAIM: ClaimKey = "k1";
 
